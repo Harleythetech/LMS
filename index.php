@@ -1,4 +1,4 @@
-<?php include "./app/overview.php";?>
+<?php include "./app/overview.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="./src/css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Library Management System</title>
 </head>
@@ -25,7 +26,7 @@
                         <a class="nav-link" aria-current="page" href="#Home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Manage</a>
+                        <a class="nav-link" href="./app/management/login.php">Manage</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
@@ -40,9 +41,9 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container-fluid vh-100 d-flex flex-wrap align-content-around" id="Home">
+    <div class="container-fluid vh-100 d-flex flex-wrap align-content-around imgcont" id="Home" data-aos="fade-in">
         <div class="p-5"></div>
-        <div class="row row-cols-2 px-5">
+        <div class="row row-cols-1 row-cols-md-2 px-5">
             <div class="col d-flex flex-wrap align-items-center">
                 <div>
                     <h1 class="mb-3">Welcome to the Library Management System</h1>
@@ -52,12 +53,12 @@
                 </div>
 
                 <div class="d-flex flex-wrap align-items-center">
-                    <button class="btn btn-success">Manage Data</button>
+                    <a href="./app/management/login.php" class="btn btn-success">Manage Data</a>
                     <p class="mb-0 ms-2">|</p>
                     <a href="#Overview" class="btn btn-outline-dark ms-2">View Overview</a>
                 </div>
             </div>
-            <div class="col d-flex flex-wrap justify-content-center">
+            <div class="col d-none d-md-flex flex-wrap justify-content-center">
                 <img src="./src/images/logo.png" width="250">
             </div>
         </div>
@@ -68,55 +69,57 @@
     </div>
 
     <!-- Overview -->
-    <div class="container-fluid vh-100 px-5" id="Overview">
+    <div class="container-fluid px-5" id="Overview">
         <div class="p-5"></div> <!-- Spacer -->
 
         <div class="row row-cols-1 mt-3">
-            <div class="col">
+            <div class="col" data-aos="fade-up">
                 <div class="d-flex rounded p-3 shadow bg-success-subtle justify-content-between">
                     <h5 class="mb-0">Overview: Borrowed Books</h5>
                     <p class="mb-0"> <?php echo $success ?></p>
                 </div>
-                <table class="table table-striped table-hover mt-2 shadow">
-                    <thead>
-                        <tr>
-                            <th>MemberID</th>
-                            <th>LastName</th>
-                            <th>Title</th>
-                            <th>ISBN</th>
-                            <th>BorrowDate</th>
-                            <th>Due</th>
-                            <th>Date Returned</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive shadow mb-4">
+                    <table class="table table-striped table-hover mt-2 overflow-scroll">
+                        <thead>
+                            <tr>
+                                <th>MemberID</th>
+                                <th>LastName</th>
+                                <th>Title</th>
+                                <th>ISBN</th>
+                                <th>BorrowDate</th>
+                                <th>Due</th>
+                                <th>Date Returned</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <?php
-                        // Check if there are any borrowed books
-                        $BorrowedBooks = data_BB($pdo);
-                        if (count($BorrowedBooks) > 0) {
-                            foreach ($BorrowedBooks as $row) {
-                                echo "<tr>";
-                                echo "<td>" . htmlspecialchars($row['MemberID']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['LastName']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['Title']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['ISBN']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['BorrowDate']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['DueDate']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['ReturnDate']) . "</td>";
-                                echo "</tr>";
+                        <tbody>
+                            <?php
+                            // Check if there are any borrowed books
+                            $BorrowedBooks = data_BB($pdo);
+                            if (count($BorrowedBooks) > 0) {
+                                foreach ($BorrowedBooks as $row) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($row['MemberID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['LastName']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Title']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['ISBN']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['BorrowDate']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['DueDate']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['ReturnDate']) . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='8'>No records found.</td></tr>";
                             }
-                        } else {
-                            echo "<tr><td colspan='8'>No records found.</td></tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Books with Authors -->
-            <div class="col">
-                <div class="row row-cols-2">
+            <div class="col" data-aos="fade-up">
+                <div class="row row-cols-1 row-cols-md-2">
                     <div class="col">
                         <div class="d-flex rounded p-3 shadow bg-success-subtle justify-content-between">
                             <h5 class="mb-0">Book Records</h5>
@@ -151,7 +154,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col">
+                    <div class="col" data-aos="fade-up">
                         <div class="d-flex rounded p-3 shadow bg-success-subtle justify-content-between">
                             <h5 class="mb-0">Quick Search</h5>
                             <form method="GET" class="input-group ms-5">
@@ -174,62 +177,88 @@
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
 
     </div>
 
-      <!--Footer-->
-      <footer class="footer bg-success-subtle">
-        <hr class="hrline">
+    <!--Footer-->
+    <footer class="footer bg-secondary-subtle">
         <div class="container-fluid p-5">
-          <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4">
-          <!--First Order, Brand name & Addr-->
-          <div class="footer-addr col order-1 text-center text-md-start">
-            <img src="./src/images/logo.png" alt="PLSP Game Enthusiat" class="img-fluid rounded-5 rounded-circle mb-2" width="80"height="80">
-            <h4>Library Management System</h4>
-          </div>
-          <!--Second Order, Quick Links-->
-          <div class="col order-2 text-center text-md-start">
-            <h5>Quick Links</h5>
-            <ul class="list-unstyled">
-              <li><a href="#Home" class="nav-link">Home</a></li>
-              <li><a href="#Manage" class="nav-link">Manage</a></li>
-              <li><a href="#Overview" class="nav-link">Overview</a></li>
-              <li><a href="#about" class="nav-link">About</a></li>
-            </ul>
-          </div>
-          <!--Third Order, Additional Info-->
-          <div class="col order-3 text-center text-md-start">
-            <h5>Additional Info</h5>
-            <ul class="list-unstyled">
-              <li><a href="#" class="nav-link">Privacy Policy</a></li>
-              <li><a href="#" class="nav-link">Terms of Service</a></li>
-            </ul>
-          </div>
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4">
+                <!--First Order, Brand name & Addr-->
+                <div class="footer-addr col order-1 text-center text-md-start">
+                    <img src="./src/images/logo.png" alt="logo" class="img-fluid rounded-5 rounded-circle mb-2"
+                        width="80" height="80">
+                    <h4>Library Management System</h4>
+                </div>
+                <!--Second Order, Quick Links-->
+                <div class="col order-2 text-center text-md-start">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#Home" class="nav-link">Home</a></li>
+                        <li><a href="#Manage" class="nav-link">Manage</a></li>
+                        <li><a href="#Overview" class="nav-link">Overview</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                    </ul>
+                </div>
+                <!--Third Order, Additional Info-->
+                <div class="col order-3 text-center text-md-start">
+                    <h5>Additional Info</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="nav-link">Privacy Policy</a></li>
+                        <li><a href="#" class="nav-link">Terms of Service</a></li>
+                    </ul>
+                </div>
 
+            </div>
         </div>
-      </div>
-      <hr> 
-      <!--Final part of footer, copyright and links of tools used and the repo it self.-->
-      <div class="text-center justify-content-between d-sm-flex d-block mx-5 link-col pb-2 pb-md-0">
-        <div class="order-1">
-          <a href="https://github.com" class="order-3 text-secondary"><i class="bi bi-github"></i></a>
-          <a href="https://getbootstrap.com/"><i class="bi bi-bootstrap-fill text-secondary"></i></a>
-          <a href="https://github.com/Harleythetech/LMS" class="link-underline link-underline-opacity-0 text-secondary">Website Repository <i class="bi bi-box-arrow-up-right"></i></a>
+        <hr>
+        <!--Final part of footer, copyright and links of tools used and the repo it self.-->
+        <div class="text-center justify-content-between d-sm-flex d-block mx-5 link-col pb-2 pb-md-0">
+            <div class="order-1">
+                <a href="https://github.com" class="order-3 text-secondary"><i class="bi bi-github"></i></a>
+                <a href="https://getbootstrap.com/"><i class="bi bi-bootstrap-fill text-secondary"></i></a>
+                <a href="https://github.com/Harleythetech/LMS"
+                    class="link-underline link-underline-opacity-0 text-secondary">Website Repository <i
+                        class="bi bi-box-arrow-up-right"></i></a>
+            </div>
+            <p class="order-2 fs-6">&copy; 2024 - 2025 LMS</p>
         </div>
-        <p class="order-2 fs-6">&copy; 2024 - 2025 LMS</p>
-      </div>
-      </footer>
+    </footer>
 
 
+    <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Important Notice</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This website is currently under development. Some features may not function as intended, and the
+                        content is subject to change. Please note that the website is not optimized for mobile or
+                        smaller screens, and I do not plan to make it responsive. Thank you for your patience and
+                        understanding as improvements continue.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-    <script src="./src/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="./src/js/main.js"></script>
 </body>
 
 </html>
