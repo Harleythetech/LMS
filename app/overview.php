@@ -22,11 +22,17 @@ function data_BB($pdo){
 // Query = Books with Authors DB
 function db_BA($pdo){
     try{
-        $BA_Query = $pdo->prepare("SELECT B.Title, B.ISBN, B.PublishedYear, CONCAT(A.FirstName, ' ', A.LastName) AS Author
-                                FROM Books B
-                                JOIN BookAuthors BA ON B.BookID = BA.BookID
-                                JOIN Authors A ON BA.AuthorID = A.AuthorID
-                                ORDER BY B.Title;");
+        $BA_Query = $pdo->prepare("SELECT 
+    B.BookID, 
+    B.Title, 
+    B.ISBN, 
+    B.PublishedYear, 
+    CONCAT(A.FirstName, ' ', A.LastName) AS Author 
+FROM Books B 
+JOIN BookAuthors BA ON B.BookID = BA.BookID 
+JOIN Authors A ON BA.AuthorID = A.AuthorID 
+ORDER BY B.Title;
+");
         $BA_Query->execute();
         return $BA_Query->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -35,7 +41,16 @@ function db_BA($pdo){
     }
 }
 
-
+function db_members($pdo){
+    try {
+        $Members_Query = $pdo->prepare("SELECT * FROM `members`");
+        $Members_Query->execute();
+        return $Members_Query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Log error for debugging
+        return []; // Return an empty array instead of killing the script
+    }
+}
 
 try {
     if (isset($_GET['search'])) {
@@ -67,6 +82,5 @@ try {
     error_log('Database Error: ' . $e->getMessage());
     echo "<tr><td colspan='4' class='text-center'>Error fetching data</td></tr>";
 }
-
 
 ?>
