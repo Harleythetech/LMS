@@ -53,18 +53,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             } else {
                 // Invalid password
                 $_SESSION['error'] = "Invalid email or password";
-                header("Location: login.php");
+                header("Location: db_home.php");
                 exit();
             }
         } else {
             // User not found
             $_SESSION['error'] = "Invalid email or password";
-            header("Location: login.php");
+            header("Location: db_home.php");
             exit();
         }
     } catch (PDOException $e) {
         $_SESSION['error'] = "Database error: " . $e->getMessage();
-        header("Location: login.php");
+        header("Location: db_home.php");
         exit();
     }
 }

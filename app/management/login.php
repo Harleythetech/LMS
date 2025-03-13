@@ -28,7 +28,7 @@ include "./processing.php";
                 <p>Use your Administrator account to sign in and manage.</p>
             </div>
             <div class="col">
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <form method="POST" action="processing.php">
                     <?php displayError(); // Display any error messages ?>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -41,7 +41,7 @@ include "./processing.php";
                         <input type="password" name="exampleInputPassword1" class="form-control"
                             id="exampleInputPassword1" placeholder="********" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary" name="login">Login</button>
                 </form>
             </div>
         </div>
